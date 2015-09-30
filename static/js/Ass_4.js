@@ -68,11 +68,12 @@ $.get('/sparql',data={'endpoint': endpoint, 'query': query, 'format': format, 'r
 
 $('#link14').on('click', function(e){
 	
-	var query = $('#query14').val();
+	var query = "select * where {" +
+  "family:Gemma rdf:type ?what}";
 	var endpoint = 'http://localhost:5820/Family/query';
 	var format = 'JSON';
 	
-	$.get('/sparql',data={'endpoint': endpoint, 'query': query, 'format': format, 'reasoning': false}, function(json){
+	$.get('/sparql',data={'endpoint': endpoint, 'query': query, 'format': format, 'reasoning': "true"}, function(json){
 		console.log(json);
 		
 		try {
@@ -95,7 +96,7 @@ $('#link14').on('click', function(e){
 					if (v_type == 'uri') {
 						var a = $('<a></a>');
 						a.attr('href',v_value);
-						a.text(v_value);
+						a.text(v_value.replace(/.*#/,''));
 						li.append(a);
 					// Else we're just showing the value.
 					} else {
